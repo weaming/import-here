@@ -1,10 +1,10 @@
 import os
 import imp
 
-version = "0.1"
+version = "0.2"
 
 
-def imp_module_with_dot(path, module_name, file=None):
+def import_module_here(path, module_name, file=None):
     if not os.path.isfile(path):
         if file is None:
             raise ValueError(
