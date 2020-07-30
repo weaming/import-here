@@ -1,7 +1,8 @@
 import os
 import imp
+from typing import Optional
 
-version = "0.2"
+version = "0.3"
 
 
 def import_module_here(path, module_name, file=None):
@@ -16,4 +17,15 @@ def import_module_here(path, module_name, file=None):
 
 
 def get_root_dir(__file__):
-    return os.path.join(os.path.dirname(os.path.abspath(__file__)))
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+def export_all(lib, locals: Optional[dict] = None):
+    __all__ = getattr(lib, '__all__', None)
+    if __all__:
+        export = {k: getattr(lib, k) for k in __all__}
+    else:
+        export = {k: v for k, v in lib.__dict__.items() if not k.startswith('_')}
+    if locals:
+        locals.update(export)
+    return export
